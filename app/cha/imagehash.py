@@ -1,7 +1,7 @@
 # -*- coding:utf8 -*-
 
-import sys,glob, os, cv2, numpy
-# from PIL import Image
+import sys, glob, os, cv2, numpy
+from PIL import Image
 from compiler import ast
 
 FILE_TYPES = ('jpg', 'jpeg', 'JPG', 'JPEG', 'gif', 'GIF', 'png', 'PNG')
@@ -45,6 +45,21 @@ def phash(imgfile):
     # 自然排序, 可以忽略图片的旋转
     data = sorted(map(lambda i: 0 if i < avg else 1, img_list), lambda x, y: x - y)
     # avg_list = [0 if i < avg else 1 for i in img_list]
+    return reduce(lambda x, (y, z): x | (z << y), enumerate(data), 0)
+
+
+# 均值hash算法
+def avhash(im):
+    # 如果参数已经是Image直接返回, 否则通过Image.open打开
+    im = isinstance(im, Image.Image) and im or Image.open(im)
+    # 将图片缩小到16x16的尺寸，总共256个像素。这一步的作用是去除图片的细节，只保留结构、明暗等基本信息，摒弃不同尺寸、比例带来的图片差异。
+    # 将缩小后的图片，转为256级灰度。也就是说，所有像素点总共只有256种颜色。
+    im = im.resize((32, 32), Image.ANTIALIAS).convert('L')
+    # 计算灰度平均值
+    avg = reduce(lambda x, y: x + y, im.getdata()) / 1024.0
+    # 将每个像素的灰度，与平均值进行比较。大于或等于平均值，记为1;小于平均值，记为0
+    # 按照自然排序, 保证即使图片旋转, 也能获取类似的hash
+    data = sorted(map(lambda i: 0 if i < avg else 1, im.getdata()), lambda x, y: x - y)
     return reduce(lambda x, (y, z): x | (z << y), enumerate(data), 0)
 
 
