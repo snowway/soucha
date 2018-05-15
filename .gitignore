@@ -1,0 +1,8 @@
+*.pyc
+*.iml
+target/
+*.class
+*.pyc
+local.properties
+.idea/
+.svn/
