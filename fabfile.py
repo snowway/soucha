@@ -9,6 +9,12 @@ def web():
     local("python boot.py runserver")
 
 
+# 记录项目pip依赖并保存到requirement.txt中
+@task
+def freeze():
+    local("source bin/activate && pip freeze > requirement.txt")
+
+
 # 图片对比任务
 @task
 def match():
