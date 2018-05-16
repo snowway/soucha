@@ -5,8 +5,9 @@ import os
 
 
 # 启动web server
+@task
 def web():
-    local("python boot.py runserver")
+    local("source bin/activate && python boot.py runserver")
 
 
 # 记录项目pip依赖并保存到requirement.txt中
