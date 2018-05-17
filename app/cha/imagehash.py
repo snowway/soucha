@@ -1,6 +1,10 @@
 # -*- coding:utf8 -*-
 
-import sys,glob, os, cv2, numpy
+import cv2
+import glob
+import numpy
+import os
+import sys
 # from PIL import Image
 from compiler import ast
 
