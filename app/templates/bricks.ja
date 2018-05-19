@@ -3,9 +3,9 @@
 
 {% block pagecontent %}
     {% for brick in bricks %}
-        <div class="col-sm-3">
-            <img src="{{ config['SOUCHA_STORAGE_VIEW_URL'] + brick.image }}" class= "img-responsive img-thumbnail">
-            <div class="text-center alert-info">{{ brick.code }}:{{ brick.name }}</div>
+        <div class="album-frame col-sm-3">
+            <img src="{{ config['SOUCHA_STORAGE_VIEW_URL'] + brick.image }}" class= "img-responsive">
+            <div class="text-center alert-info ">{{ brick.code }}:{{ brick.name }}</div>
         </div>
     {% endfor %}
 

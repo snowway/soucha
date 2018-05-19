@@ -1,8 +1,13 @@
 # -*- coding:utf8 -*-
 
-import sys, glob, os, cv2, numpy
-from PIL import Image
+import cv2
+import glob
+import numpy
+import os
+import sys
 from compiler import ast
+
+from PIL import Image
 
 FILE_TYPES = ('jpg', 'jpeg', 'JPG', 'JPEG', 'gif', 'GIF', 'png', 'PNG')
 
@@ -58,9 +63,7 @@ def avhash(im):
     # 计算灰度平均值
     avg = reduce(lambda x, y: x + y, im.getdata()) / 1024.0
     # 将每个像素的灰度，与平均值进行比较。大于或等于平均值，记为1;小于平均值，记为0
-    # 按照自然排序, 保证即使图片旋转, 也能获取类似的hash
-    data = sorted(map(lambda i: 0 if i < avg else 1, im.getdata()), lambda x, y: x - y)
-    return reduce(lambda x, (y, z): x | (z << y), enumerate(data), 0)
+    return reduce(lambda x, (y, z): x | (z << y), enumerate(im.getdata()), 0)
 
 
 # 计算两个long的汉明距离

@@ -2,7 +2,7 @@
 
 {% block head %}
     <meta charset="utf-8">
-{#    <link rel="stylesheet" href="static/soucha.css"></link>#}
+    <link rel="stylesheet" href="static/soucha.css"></link>
     {{ super() }}
 {% endblock %}
 
