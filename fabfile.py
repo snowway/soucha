@@ -3,7 +3,9 @@
 import os
 
 from fabric.api import *
-settings.warn_only=True
+
+settings.warn_only = True
+
 
 @task
 def weed():
