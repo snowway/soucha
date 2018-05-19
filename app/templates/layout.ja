@@ -1,0 +1,57 @@
+{% extends "bootstrap/base.html" %}
+
+{% block head %}
+    <meta charset="utf-8">
+{#    <link rel="stylesheet" href="static/soucha.css"></link>#}
+    {{ super() }}
+{% endblock %}
+
+{% block title %}
+    soucha
+{% endblock %}
+
+
+{% block scripts %}
+    <!-- add jquery script -->
+    {{ super() }}
+    <!-- add moment-js scriptc -->
+    {{ moment.include_moment() }}
+{% endblock %}
+
+<!-- navigation bar -->
+{% block navbar %}
+    <div class="navbar-inverse" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Soucha</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/bricks">茶饼列表</a>
+                    </li>
+                    <li>
+                        <a href="/brick/edit">茶饼添加</a>
+                    </li>
+                    <li>
+                        <a href="/brick/search">茶饼搜索</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <br/>
+    <div class="container">
+        {% block pagecontent %}{% endblock %}
+    </div>
+{% endblock %}

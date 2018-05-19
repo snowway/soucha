@@ -6,3 +6,4 @@ target/
 local.properties
 .idea/
 .svn/
+.migrations/

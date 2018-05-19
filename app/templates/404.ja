@@ -1,0 +1,7 @@
+{% extends "layout.ja" %}
+
+{% block pagecontent %}
+    <div class="page-header">
+        <h>404 NOT FOUND:{{ error }}</h>
+    </div>
+{% endblock %}
