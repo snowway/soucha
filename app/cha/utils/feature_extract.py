@@ -3,6 +3,7 @@
 import cv2
 import numpy as np
 
+
 def get_gray_img(img_path):
     ori_img = cv2.imread(img_path)
     gray_img = cv2.cvtColor(ori_img, cv2.COLOR_RGB2GRAY)
