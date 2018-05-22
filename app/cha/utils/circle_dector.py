@@ -108,8 +108,11 @@ class CircleDetector(object):
 
 
 if __name__ == '__main__':
+    import os
+
+    folder = os.path.split(os.getcwd())[0] + "/sample/v1/"
     for i in range(1, 7):
-        jpg = '/Users/philip.du/Documents/Projects/research/soucha/app/cha/sample/v1/' + str(i) + 'a.JPG'
+        jpg = folder + str(i) + 'a.JPG'
         print(jpg)
         img = cv2.imread(jpg)
         cropImg = CircleDetector(img).cut()

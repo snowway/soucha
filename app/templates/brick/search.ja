@@ -1,0 +1,87 @@
+{% extends "layout.ja" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block scripts %}
+    {{ super() }}
+    <!-- jquery file upload -->
+    <script src="/static/fileupload/jquery.ui.widget.js"></script>
+    <script src="/static/fileupload/jquery.iframe-transport.js"></script>
+    <script src="/static/fileupload/jquery.fileupload.js"></script>
+
+    <!-- image crop (https://github.com/alexk111/ngImgCrop) -->
+    <script src="/static/angular.min.js"></script>
+    <script src="/static/imgcrop/ng-img-crop.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/imgcrop/ng-img-crop.css">
+    <style>
+        .imgcrop {
+            overflow: hidden;
+            width: 480px;
+            height: 480px;
+        }
+    </style>
+    <script type="text/javascript">
+
+
+        submitBrickSearchForm = function () {
+            $("#thumbnail").val($("#croppedImage").attr("ng-src"));
+            $("#brickSearchForm").submit();
+        };
+
+        angular.module('soucha', ['ngImgCrop'])
+            .controller('Ctrl', function ($scope) {
+                $scope.image = '';
+                $scope.croppedImage = '';
+
+                var selectFile = function (evt) {
+                    var file = evt.currentTarget.files[0];
+                    var reader = new FileReader();
+                    reader.onload = function (evt) {
+                        $scope.$apply(function ($scope) {
+                            $scope.image = evt.target.result;
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                };
+                angular.element(document.querySelector('#image')).on('change', selectFile);
+            });
+    </script>
+{% endblock %}
+
+{% block body_attribs %} ng-app="soucha" ng-controller="Ctrl"{% endblock body_attribs %}
+
+{% block pagecontent %}
+    <div>
+        <form id="brickSearchForm" method="post">
+            {{ form.csrf_token }}
+            {{ wtf.form_field(form.thumbnail) }}
+            <input type="file" id="image">
+
+            <div class="row">
+                <div class="col-sm-8 imgcrop">
+                    <img-crop
+                            image="image"
+                            area-type="circle"
+                            result-image="croppedImage">
+                    </img-crop>
+                </div>
+                <div class="col-sm-4">
+                    {% raw %}
+                    <img id="croppedImage" ng-src="{{ croppedImage }}"/>
+                    {% endraw %}
+                </div>
+                <input type="button" onclick="submitBrickSearchForm()" value="搜索" class="btn btn-success">
+            </div>
+        </form>
+    </div>
+
+    <div>
+     {% for brick in bricks %}
+        <div class="album-frame col-sm-3">
+            <img src="{{ config['SOUCHA_STORAGE_VIEW_URL'] + brick.image }}" class= "img-responsive">
+            <div class="text-center alert-info ">{{ brick.code }}:{{ brick.name }} {{ brick.similarity }}</div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
+
+

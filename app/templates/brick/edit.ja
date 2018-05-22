@@ -1,0 +1,90 @@
+{% extends "layout.ja" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block scripts %}
+    {{ super() }}
+    <!-- jquery file upload -->
+    <script src="/static/fileupload/jquery.ui.widget.js"></script>
+    <script src="/static/fileupload/jquery.iframe-transport.js"></script>
+    <script src="/static/fileupload/jquery.fileupload.js"></script>
+
+    <!-- image crop (https://github.com/alexk111/ngImgCrop) -->
+    <script src="/static/angular.min.js"></script>
+    <script src="/static/imgcrop/ng-img-crop.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/imgcrop/ng-img-crop.css">
+    <style>
+        .imgcrop {
+            overflow: hidden;
+            width: 480px;
+            height: 480px;
+        }
+    </style>
+    <script type="text/javascript">
+
+
+        submitBrickForm = function(){
+          $("#thumbnail").val($("#croppedImage").attr("ng-src"));
+          $("#brickForm").submit();
+        };
+
+        angular.module('soucha', ['ngImgCrop'])
+            .controller('Ctrl', function ($scope) {
+                $scope.image = '';
+                $scope.croppedImage = '';
+
+                var selectFile = function (evt) {
+                    var file = evt.currentTarget.files[0];
+                    var reader = new FileReader();
+                    reader.onload = function (evt) {
+                        $scope.$apply(function ($scope) {
+                            $scope.image = evt.target.result;
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                };
+                angular.element(document.querySelector('#image')).on('change', selectFile);
+            });
+    </script>
+{% endblock %}
+
+{% block body_attribs %} ng-app="soucha" ng-controller="Ctrl"{% endblock body_attribs %}
+
+{% block pagecontent %}
+    <div>
+        <form id="brickForm" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-sm-4">
+                    {{ form.csrf_token }}
+                    {{ wtf.form_field(form.code) }}
+                    {{ wtf.form_field(form.name) }}
+                    {{ wtf.form_field(form.description) }}
+                    {{ wtf.form_field(form.thumbnail) }}
+                    <input type="button" onclick="submitBrickForm()" value="保存" class="btn btn-primary">
+                </div>
+                <div class="col-sm-8 row">
+                    {{ wtf.form_field(form.image) }}
+                    <div class="col-sm-10">
+                        <div class="imgcrop">
+                            <img-crop
+                                    image="image"
+                                    area-type="circle"
+                                    result-image="croppedImage">
+                            </img-crop>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div>
+                            {% raw %}
+                            <img id="croppedImage" ng-src="{{ croppedImage }}"/>
+                            {% endraw %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+{% endblock %}
+
+

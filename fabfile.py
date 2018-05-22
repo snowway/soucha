@@ -11,7 +11,10 @@ settings.warn_only = True
 def weed():
     """启动weed文件服务器, 用来保存图片"""
     local("ps -ef | egrep -v 'grep|weed' | grep 'weed' | awk '{print $2}' | xargs kill -9")
-    local("weed/weed.darwin server -master.port=9333 -volume.port=10333 &")
+    local("mkdir -p /var/tmp/soucha && weed/weed.darwin server \
+     -dir=/var/tmp/soucha \
+     -master.port=9333 \
+     -volume.port=10333 &")
 
 
 @task
