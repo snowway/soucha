@@ -38,7 +38,7 @@ class LocalConfig(Config):
 
 class DevelopmentConfig(Config):
     """开发环境"""
-    DEBUG = True
+    DEBUG = False
     SOUCHA_STORAGE_UPLOAD_URL = "http://weed.shtianxin.com/submit"
     SOUCHA_STORAGE_VIEW_URL = "http://weed.shtianxin.com"
     SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "data", "soucha-dev.sqlite")
