@@ -2,7 +2,7 @@
 
 import cv2
 
-import feature_extract as ife
+import cha.utils.feature_extract as ife
 
 
 def orb_img(img, features_count):
@@ -31,56 +31,57 @@ def surf_img(img):
 
 
 if __name__ == '__main__':
-    jpg = "/Users/philip.du/Documents/Projects/research/tea-recognition/sample_1/1a.JPG"
+    # jpg = "/Users/philip.du/Documents/Projects/research/tea-recognition/sample_1/1a.JPG"
     # jpg = "/Users/philip.du/Downloads/image1.JPG"
+    jpg = "/Users/philip.du/Documents/Projects/research/soucha/app/cha/sample/v1/1a.JPG"
 
     ## ----  orb --- ##
 
-    # gray_img = ife.get_gray_img(jpg)
-    # key_points, desc, signed_img = orb_img(gray_img, 5000)
-    # print("gray# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
-    # cv2.imwrite("gray_img.signed.jpg", signed_img)
-    #
-    # sobel_img = ife.get_sobel_img(jpg)
-    # key_points, desc, signed_img = orb_img(sobel_img, 5000)
-    # print("sobel# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
-    # cv2.imwrite("sobel_img.signed.jpg", signed_img)
-    #
-    # canny_img = ife.get_canny_img(jpg)
-    # key_points, desc, signed_img = orb_img(canny_img, 5000)
-    # print("canny# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
-    # cv2.imwrite("canny_img.signed.jpg", signed_img)
+    gray_img = ife.get_gray_img(jpg)
+    key_points, desc, signed_img = orb_img(cv2.resize(gray_img, (128, 128)), 200)
+    print("gray# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
+    cv2.imwrite("gray_img.orb.signed.jpg", signed_img)
+
+    sobel_img = ife.get_sobel_img(jpg)
+    key_points, desc, signed_img = orb_img(cv2.resize(sobel_img, (128, 128)), 200)
+    print("sobel# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
+    cv2.imwrite("sobel_img.orb.signed.jpg", signed_img)
+
+    canny_img = ife.get_canny_img(jpg)
+    key_points, desc, signed_img = orb_img(cv2.resize(canny_img, (128, 128)), 200)
+    print("canny# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
+    cv2.imwrite("canny_img.orb.signed.jpg", signed_img)
 
     ## ----  sift --- ##
 
     gray_img = ife.get_gray_img(jpg)
-    key_points, desc, signed_img = sift_img(gray_img)
+    key_points, desc, signed_img = sift_img(cv2.resize(gray_img, (128, 128)))
     print("gray# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
     cv2.imwrite("gray_img.signed.jpg", signed_img)
 
     sobel_img = ife.get_sobel_img(jpg)
-    key_points, desc, signed_img = sift_img(sobel_img)
+    key_points, desc, signed_img = sift_img(cv2.resize(sobel_img, (128, 128)))
     print("sobel# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
     cv2.imwrite("sobel_img.signed.jpg", signed_img)
 
     canny_img = ife.get_canny_img(jpg)
-    key_points, desc, signed_img = sift_img(canny_img)
+    key_points, desc, signed_img = sift_img(cv2.resize(canny_img, (128, 128)))
     print("canny# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
     cv2.imwrite("canny_img.signed.jpg", signed_img)
 
     ## ----  surf --- ##
 
-    # gray_img = ife.get_gray_img(jpg)
-    # key_points, desc, signed_img = surf_img(gray_img)
-    # print("gray# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
-    # cv2.imwrite("gray_img.signed.jpg", signed_img)
-    #
-    # sobel_img = ife.get_sobel_img(jpg)
-    # key_points, desc, signed_img = surf_img(sobel_img)
-    # print("sobel# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
-    # cv2.imwrite("sobel_img.signed.jpg", signed_img)
-    #
-    # canny_img = ife.get_canny_img(jpg)
-    # key_points, desc, signed_img = surf_img(canny_img)
-    # print("canny# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
-    # cv2.imwrite("canny_img.signed.jpg", signed_img)
+    gray_img = ife.get_gray_img(jpg)
+    key_points, desc, signed_img = surf_img(cv2.resize(gray_img, (128, 128)))
+    print("gray# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
+    cv2.imwrite("gray_img.surf.signed.jpg", signed_img)
+
+    sobel_img = ife.get_sobel_img(jpg)
+    key_points, desc, signed_img = surf_img(cv2.resize(sobel_img, (128, 128)))
+    print("sobel# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
+    cv2.imwrite("sobel_img.surf.signed.jpg", signed_img)
+
+    canny_img = ife.get_canny_img(jpg)
+    key_points, desc, signed_img = surf_img(cv2.resize(canny_img, (128, 128)))
+    print("canny# kps: {}, descriptors: {}".format(len(key_points), desc.shape))
+    cv2.imwrite("canny_img.surf.signed.jpg", signed_img)

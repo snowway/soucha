@@ -74,7 +74,7 @@ def pretty_show_img(img):
 
 
 if __name__ == '__main__':
-    jpg = "/Users/philip.du/Documents/Projects/research/tea-recognition/sample_1/1a.JPG"
+    jpg = "/Users/philip.du/Documents/Projects/research/app/cha/sample/v1/1a.JPG"
     ori_image = cv2.imread(jpg)
     gray_image = get_gray_img(jpg)
     sobel_img = get_sobel_img(jpg)

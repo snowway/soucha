@@ -9,12 +9,8 @@ import cha.utils.feature_extract as fe
 
 
 class ImgHash(object):
-    def __init__(self, img, hash_size=8):
-        if hash_size < 2:
-            raise ValueError("Hash size must be greater than or equal to 2")
-
+    def __init__(self, img):
         self.img = img
-        self.hash_size = hash_size
 
     # 平均哈希，对于每个像素输出1，如果该像素是大于或等于平均值，否则为0
     def average_hash(self):
@@ -27,15 +23,15 @@ class ImgHash(object):
         return diff
 
     # 感知哈希, 融合时空域变化信息, TODO 具体原理待学习
-    def perceptual_hash(self, highfreq_factor=4):
+    def perceptual_hash(self, high_freq_factor=4):
+        height, weight = self.img.shape[0:2]
+
         import scipy.fftpack
-        img_size = self.hash_size * highfreq_factor
-        img = cv2.resize(self.img, (img_size, img_size))
-        pixels = numpy.asarray(img)
+        pixels = numpy.asarray(self.img)
         dct = scipy.fftpack.dct(scipy.fftpack.dct(pixels, axis=0), axis=1)
-        dctlowfreq = dct[:self.hash_size, :self.hash_size]
-        med = numpy.median(dctlowfreq)
-        diff = dctlowfreq > med
+        dct_low_freq = dct[:int(height / high_freq_factor), :int(weight / high_freq_factor)]
+        med = numpy.median(dct_low_freq)
+        diff = dct_low_freq > med
         return diff
 
     # 梯度哈希，计算每个像素的差值，并与平均差异的差异进行比较。
@@ -46,19 +42,22 @@ class ImgHash(object):
         return diff
 
     # 小波Hash, 离散小波变换（DWT) , 变换后低频部分类似于原始信号。
-    def wavelet_hash(self, image_scale=None, mode='haar', remove_max_haar_ll=True):
+    def wavelet_hash(self, hash_size=8, image_scale=None, mode='haar', remove_max_haar_ll=True):
+        if hash_size < 2:
+            raise ValueError("Hash size must be greater than or equal to 2")
+
         import pywt
         if image_scale is not None:
             assert image_scale & (image_scale - 1) == 0, "image_scale is not power of 2"
         else:
             height, weight = self.img.shape[0:2]
             image_natural_scale = 2 ** int(numpy.log2(min(height, weight)))
-            image_scale = max(image_natural_scale, self.hash_size)
+            image_scale = max(image_natural_scale, hash_size)
 
         ll_max_level = int(numpy.log2(image_scale))
 
-        level = int(numpy.log2(self.hash_size))
-        assert self.hash_size & (self.hash_size - 1) == 0, "hash_size is not power of 2"
+        level = int(numpy.log2(hash_size))
+        assert self.hash_size & (hash_size - 1) == 0, "hash_size is not power of 2"
         assert level <= ll_max_level, "hash_size in a wrong range"
         dwt_level = ll_max_level - level
 
@@ -80,6 +79,16 @@ class ImgHash(object):
         med = numpy.median(dwt_low)
         diff = dwt_low > med
         return diff
+
+    def hash_code(self, hash_algorithm):
+        if hash_algorithm is "average":
+            return self.average_hash()
+        elif hash_algorithm is "perceptual":
+            return self.perceptual_hash()
+        elif hash_algorithm is "difference":
+            return self.difference_hash()
+        elif hash_algorithm is "wavelet":
+            return self.wavelet_hash()
 
 
 class DistanceCalculator(object):
