@@ -1,3 +1,4 @@
-[submodule "lib/ImageAI"]
-	path = lib/ImageAI
+
+[submodule "deps/ImageAI"]
+	path = deps/ImageAI
 	url = https://github.com/pippo1980/ImageAI.git
