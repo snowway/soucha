@@ -169,7 +169,11 @@ class Comparator(object):
 if __name__ == '__main__':
     comparator = Comparator("/Users/philip.du/Documents/Projects/research/soucha/app/cha/sample/candidate/1a.png",
                             ["/Users/philip.du/Documents/Projects/research/soucha/app/cha/sample/v1/1a.JPG",
-                             "/Users/philip.du/Documents/Projects/research/soucha/app/cha/sample/v1/2a.JPG"])
+                             "/Users/philip.du/Documents/Projects/research/soucha/app/cha/sample/v1/2a.JPG",
+                             "/Users/philip.du/Documents/Projects/research/soucha/app/cha/sample/v1/3a.JPG",
+                             "/Users/philip.du/Documents/Projects/research/soucha/app/cha/sample/v1/4a.JPG",
+                             "/Users/philip.du/Documents/Projects/research/soucha/app/cha/sample/v1/5a.JPG",
+                             "/Users/philip.du/Documents/Projects/research/soucha/app/cha/sample/v1/6a.JPG"])
 
     # images_hash = comparator.compare(filter="gray", hash_algorithm="perceptual", distance_calculator="hamming")
     # print("filter:{}, hash:{}, distance:{}, result:{}".format("gray", "perceptual", "hamming", images_hash))
@@ -192,10 +196,12 @@ if __name__ == '__main__':
     # images_hash = comparator.compare(filter="canny", hash_algorithm="wavelet", distance_calculator="hamming")
     # print("filter:{}, hash:{}, distance:{}, result:{}".format("canny", "wavelet", "hamming", images_hash))
 
-
-    images_hash = comparator.compare(filter="gray", hash_algorithm="wavelet", distance_calculator="euclidean")
-    print("filter:{}, hash:{}, distance:{}, result:{}".format("gray", "wavelet", "hamming", images_hash))
-    images_hash = comparator.compare(filter="sobel", hash_algorithm="wavelet", distance_calculator="euclidean")
-    print("filter:{}, hash:{}, distance:{}, result:{}".format("sobel", "wavelet", "hamming", images_hash))
-    images_hash = comparator.compare(filter="canny", hash_algorithm="wavelet", distance_calculator="euclidean")
-    print("filter:{}, hash:{}, distance:{}, result:{}".format("canny", "wavelet", "hamming", images_hash))
+    # images_hash = comparator.compare(filter="gray", hash_algorithm="wavelet", distance_calculator="euclidean")
+    # print("filter:{}, hash:{}, distance:{}, result:{}".format("gray", "wavelet", "euclidean", images_hash))
+    # images_hash = comparator.compare(filter="sobel", hash_algorithm="wavelet", distance_calculator="euclidean")
+    # print("filter:{}, hash:{}, distance:{}, result:{}".format("sobel", "wavelet", "euclidean", images_hash))
+    images_hash = comparator.compare(
+                                     filter="canny",
+                                     hash_algorithm="perceptual",
+                                     distance_calculator="hamming")
+    print("filter:{}, hash:{}, distance:{}, result:{}".format("canny", "perceptual", "hamming", images_hash))
