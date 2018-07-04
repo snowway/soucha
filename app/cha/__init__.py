@@ -1,4 +1,4 @@
 # coding:utf8
 
 
-from imagehash import  *
+from cha.imagehash import *

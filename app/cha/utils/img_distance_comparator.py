@@ -3,7 +3,7 @@
 import cv2
 # import imagehash
 import numpy
-import scipy
+# import scipy
 
 import cha.utils.feature_extract as fe
 
@@ -103,6 +103,7 @@ filters = {"gray": fe.get_gray_img,
 class Comparator(object):
 
     def __init__(self, target_img, to_compared_img=[]):
+        self.images_hash = {}
         self.target_img = target_img
         self.to_compared_img = to_compared_img
         self.to_compared_img.insert(0, target_img)
@@ -139,7 +140,6 @@ class Comparator(object):
         return self.images
 
     def hash_img(self, hash_algorithm):
-        self.images_hash = {}
 
         for key, image in self.images.items():
             if hash_algorithm is "average":
@@ -154,6 +154,8 @@ class Comparator(object):
         return self.images_hash
 
     def distance_img(self, distance_calculator, a, b):
+        print("#####", a.data)
+
         from scipy.spatial import distance
         if distance_calculator is "hamming":
             return distance.hamming(a.data, b.data)
@@ -201,7 +203,7 @@ if __name__ == '__main__':
     # images_hash = comparator.compare(filter="sobel", hash_algorithm="wavelet", distance_calculator="euclidean")
     # print("filter:{}, hash:{}, distance:{}, result:{}".format("sobel", "wavelet", "euclidean", images_hash))
     images_hash = comparator.compare(
-                                     filter="canny",
-                                     hash_algorithm="perceptual",
-                                     distance_calculator="hamming")
+        filter="canny",
+        hash_algorithm="perceptual",
+        distance_calculator="hamming")
     print("filter:{}, hash:{}, distance:{}, result:{}".format("canny", "perceptual", "hamming", images_hash))
