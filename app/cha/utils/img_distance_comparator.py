@@ -5,7 +5,7 @@ import cv2
 import numpy
 import scipy
 
-import feature_extract as fe
+import cha.utils.feature_extract as fe
 
 
 class ImgHash(object):
